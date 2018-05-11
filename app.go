@@ -20,6 +20,7 @@ func build(c config) *app {
 
 	r := http.NewServeMux()
 	r.HandleFunc("/api/register", a.Register)
+	r.HandleFunc("/api/deregister", a.Deregister)
 	r.HandleFunc("/api/login", a.Login)
 	r.HandleFunc("/api/logout", a.Logout)
 	// r.HandleFunc("/api/createInvitation", a.CreateInvitation)
