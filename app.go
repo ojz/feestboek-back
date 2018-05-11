@@ -19,8 +19,10 @@ func build(c config) *app {
 	a.repo = buildRepo(c)
 
 	r := http.NewServeMux()
+	r.HandleFunc("/api/register", a.Register)
 	r.HandleFunc("/api/login", a.Login)
 	r.HandleFunc("/api/logout", a.Logout)
+	// r.HandleFunc("/api/createInvitation", a.CreateInvitation)
 	a.handler = r
 
 	return a
