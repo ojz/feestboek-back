@@ -8,7 +8,7 @@ import (
 func in(w http.ResponseWriter, r *http.Request, input interface{}) bool {
 	dec := json.NewDecoder(r.Body)
 	if err := dec.Decode(input); err != nil {
-		nok(w, 400, err.Error())
+		nok(w, 400, err)
 		return false
 	}
 	return true
@@ -29,15 +29,15 @@ func ok(w http.ResponseWriter, data interface{}) {
 	enc.Encode(output)
 }
 
-func nok(w http.ResponseWriter, status int, data interface{}) {
+func nok(w http.ResponseWriter, status int, err error) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(status)
 
 	var output struct {
-		Success bool        `json:"success"`
-		Error   interface{} `json:"error"`
+		Success bool   `json:"success"`
+		Error   string `json:"error"`
 	}
-	output.Error = data
+	output.Error = err.Error()
 
 	enc := json.NewEncoder(w)
 	enc.Encode(output)
